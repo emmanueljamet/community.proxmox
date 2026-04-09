@@ -4,5 +4,5 @@ test: Nope
 ci:
   - change
 
-minor_change:
-  - ci - check format for changelog fragments
+minor_changes:
+  - ci - check format for changelog fragments.

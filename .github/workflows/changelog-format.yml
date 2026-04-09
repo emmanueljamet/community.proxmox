@@ -31,7 +31,7 @@ jobs:
 
           from yaml import safe_load
 
-          FRAGMENTS_PATH = getenv("FRAGMENTS_PATH")
+          FRAGMENTS_PATH = getenv("FRAGMENTS_PATH", "changelogs/fragments")
 
 
           for filename in listdir(FRAGMENTS_PATH):
@@ -59,7 +59,6 @@ jobs:
                           regex = recompile(r"\w+ - [a-z].*\.")
                           for change in changes:
                               if not regex.search(change):
-                                  print("no match")
                                   raise ValueError(
                                       "change does not follow principles defined here: https://github.com/ansible-collections/community.proxmox/blob/main/CONTRIBUTING.md#opening-pull-requests"
                                   )
