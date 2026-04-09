@@ -61,7 +61,7 @@ jobs:
 
                           regex = recompile(r"\w+ - [a-z].*\.")
                           for change in changes:
-                          print(change)
+                              print(change)
                               if not regex.search(change):
                                   raise Exception(
                                       "change does not follow principles defined here: https://github.com/ansible-collections/community.proxmox/blob/main/CONTRIBUTING.md#opening-pull-requests"
