@@ -37,7 +37,7 @@ jobs:
               raise Exception(f"{FRAGMENTS_PATH} does not exist")
 
           for filename in listdir(FRAGMENTS_PATH):
-          print(filename)
+              print(filename)
               if filename == ".keep":
                   continue
               file_path = join(FRAGMENTS_PATH, filename)
