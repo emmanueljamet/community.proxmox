@@ -35,11 +35,15 @@ jobs:
           FRAGMENTS_PATH = getenv("FRAGMENTS_PATH", "changelogs/fragments")
 
           if not exists(FRAGMENTS_PATH):
-              raise Exception(f"{FRAGMENTS_PATH} does not exist")
+              print(f"{FRAGMENTS_PATH} does not exist")
+              sysexit(1)
 
           for filename in listdir(FRAGMENTS_PATH):
               if filename == ".keep":
                   continue
+              if not filename.endswith(("yml", "yaml")):
+                  print(f"{filename}: extension is not valid for a yaml file")
+                  sysexit(1)
               file_path = join(FRAGMENTS_PATH, filename)
               if isfile(file_path):
                   try:
@@ -57,17 +61,21 @@ jobs:
                               "known_issues",
                               "trivial",
                           ]:
-                              raise Exception(f"unrecognized change type: {typ}")
+                              print(f"unrecognized change type: {typ}")
+                              sysexit(1)
 
                           regex = recompile(r"\w+ - [a-z].*\.")
                           for change in changes:
                               if not regex.fullmatch(change):
-                                  raise Exception(
-                                      "change does not follow principles defined here: https://github.com/ansible-collections/community.proxmox/blob/main/CONTRIBUTING.md#opening-pull-requests"
+                                  print(
+                                      "change does not follow principles defined here: "
+                                      "https://github.com/ansible-collections/community.proxmox/blob/main/CONTRIBUTING.md#opening-pull-requests"
                                   )
+                                  sysexit(1)
                   except Exception as e:
                       print(f"Exception raised while checking changelog fragment {filename}: {e}")
                       sysexit(1)
+
               
 
 
