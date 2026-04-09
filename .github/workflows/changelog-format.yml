@@ -28,6 +28,7 @@ jobs:
           from os import getenv, listdir
           from os.path import exists, isfile, join
           from re import compile as recompile
+          from sys import exit as sysexit
 
           from yaml import safe_load
 
@@ -68,7 +69,7 @@ jobs:
                                   )
                   except Exception as e:
                       print(f"Exception raised while checking changelog fragment {filename}: {e}")
-                      sys.exit(1)
+                      sysexit(1)
 
 
 
