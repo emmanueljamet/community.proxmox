@@ -22,14 +22,16 @@ jobs:
 
       - name: Check fragments format
         shell: python
+        env:
+          FRAGMENTS_PATH: "changelogs/fragments"
         run : |
-          from os import listdir
+          from os import getenv, listdir
           from os.path import isfile, join
           from re import compile as recompile
 
           from yaml import safe_load
 
-          FRAGMENTS_PATH = "changelogs/fragments"
+          FRAGMENTS_PATH = getenv("FRAGMENTS_PATH")
 
 
           for filename in listdir(FRAGMENTS_PATH):
@@ -63,5 +65,6 @@ jobs:
                                   )
                   except Exception as e:
                       print(f"Exception raised while checking changelog fragment {filename}: {e}")
+
 
 
