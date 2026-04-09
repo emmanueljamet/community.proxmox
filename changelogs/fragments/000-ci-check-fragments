@@ -1,8 +1,3 @@
 ---
-test: Nope
-
-ci:
-  - change
-
 minor_changes:
-  - ci - check format for changelog fragments.
+  - ci - check format for changelog fragments
