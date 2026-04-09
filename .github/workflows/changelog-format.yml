@@ -26,13 +26,15 @@ jobs:
           FRAGMENTS_PATH: "changelogs/fragments"
         run : |
           from os import getenv, listdir
-          from os.path import isfile, join
+          from os.path import exists, isfile, join
           from re import compile as recompile
 
           from yaml import safe_load
 
           FRAGMENTS_PATH = getenv("FRAGMENTS_PATH", "changelogs/fragments")
 
+          if not exists(FRAGMENTS_PATH):
+              raise Exception(f"{FRAGMENTS_PATH} does not exist")
 
           for filename in listdir(FRAGMENTS_PATH):
               if filename == ".keep":
@@ -54,16 +56,17 @@ jobs:
                               "known_issues",
                               "trivial",
                           ]:
-                              raise ValueError(f"unrecognized change type: {typ}")
+                              raise Exception(f"unrecognized change type: {typ}")
 
                           regex = recompile(r"\w+ - [a-z].*\.")
                           for change in changes:
                               if not regex.search(change):
-                                  raise ValueError(
+                                  raise Exception(
                                       "change does not follow principles defined here: https://github.com/ansible-collections/community.proxmox/blob/main/CONTRIBUTING.md#opening-pull-requests"
                                   )
                   except Exception as e:
                       print(f"Exception raised while checking changelog fragment {filename}: {e}")
+
 
 
 
