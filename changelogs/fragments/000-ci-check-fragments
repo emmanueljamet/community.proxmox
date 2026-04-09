@@ -1,0 +1,8 @@
+---
+test: Nope
+
+ci:
+  - change
+
+minor_change:
+  - ci - check format for changelog fragments
