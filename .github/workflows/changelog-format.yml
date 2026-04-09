@@ -68,6 +68,7 @@ jobs:
                                   )
                   except Exception as e:
                       print(f"Exception raised while checking changelog fragment {filename}: {e}")
+                      sys.exit(1)
 
 
 
