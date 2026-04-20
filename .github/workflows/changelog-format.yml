@@ -39,6 +39,7 @@ jobs:
               sysexit(1)
 
           for filename in listdir(FRAGMENTS_PATH):
+              print(filename)
               if filename == ".keep":
                   continue
               if not filename.endswith(("yml", "yaml")):

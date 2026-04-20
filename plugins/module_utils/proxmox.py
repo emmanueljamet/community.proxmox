@@ -161,12 +161,7 @@ def compare_list_of_dicts(existing_list, new_list, uid, params_to_ignore=None):
 def is_not_found_error(exception: Exception) -> bool:
     """Check if the exception is a not found error."""
     error_str = str(exception).lower()
-    return (
-        "does not exist" in error_str
-        or "not found" in error_str
-        or "no such" in error_str
-        or "not defined" in error_str
-    )
+    return "does not exist" in error_str or "not found" in error_str or "no such" in error_str
 
 
 class ProxmoxAnsible:
@@ -235,12 +230,13 @@ class ProxmoxAnsible:
         except Exception as e:
             self.module.fail_json(msg=f"Unable to retrieve Proxmox VE version: {e}")
 
-    def get_node(self, node):
+    def get_node(self, node, strict=False):
         """
         Filters all known PVE nodes for the given node name.
 
         Args:
             node(str): The name of the node.
+            strict(bool): Fail if the node does not exist.
 
         Returns:
             dict | None: The node information provided by the api path GET /nodes.
@@ -249,6 +245,8 @@ class ProxmoxAnsible:
             nodes = [n for n in self.proxmox_api.nodes.get() if n["node"] == node]
         except Exception as e:
             self.module.fail_json(msg=f"Unable to retrieve Proxmox VE node: {e}")
+        if not nodes and strict:
+            self.module.fail_json(msg=f"Node {node} does not exist")
         return nodes[0] if nodes else None
 
     def get_nextvmid(self):
